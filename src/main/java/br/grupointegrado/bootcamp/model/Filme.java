@@ -1,11 +1,18 @@
 package br.grupointegrado.bootcamp.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "filmes")
 public class Filme {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column
     private String nome;
 
     public String getNome() {
