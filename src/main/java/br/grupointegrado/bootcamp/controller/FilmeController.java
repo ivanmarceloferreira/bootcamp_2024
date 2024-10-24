@@ -1,12 +1,10 @@
 package br.grupointegrado.bootcamp.controller;
 
+import br.grupointegrado.bootcamp.dto.FilmeRequestDTO;
 import br.grupointegrado.bootcamp.model.Filme;
 import br.grupointegrado.bootcamp.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,7 +28,15 @@ public class FilmeController {
 
     @GetMapping("/nome/{nome}")
     public List<Filme> findById(@PathVariable String nome) {
-        return this.repository.findByNomeLike(nome);
+        return this.repository.findByNomeContaining(nome);
+    }
+
+    @PostMapping
+    public Filme save(@RequestBody FilmeRequestDTO dto) {
+        Filme filme = new Filme();
+        filme.setNome(dto.nome());
+
+        return this.repository.save(filme);
     }
 
 }
