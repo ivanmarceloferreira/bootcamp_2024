@@ -39,4 +39,22 @@ public class FilmeController {
         return this.repository.save(filme);
     }
 
+    @PutMapping("/{id}")
+    public Filme update(@PathVariable Integer id,@RequestBody FilmeRequestDTO dto) {
+        Filme filme = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+
+        filme.setNome(dto.nome());
+
+        return this.repository.save(filme);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id) {
+        Filme filme = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+
+        this.repository.delete(filme);
+    }
+
 }
