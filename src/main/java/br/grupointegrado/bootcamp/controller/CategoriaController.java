@@ -1,5 +1,6 @@
 package br.grupointegrado.bootcamp.controller;
 
+import br.grupointegrado.bootcamp.dto.CategoriaFullResponseDTO;
 import br.grupointegrado.bootcamp.dto.CategoriaRequestDTO;
 import br.grupointegrado.bootcamp.model.Categoria;
 import br.grupointegrado.bootcamp.repository.CategoriaRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/categorias")
@@ -16,8 +18,13 @@ public class CategoriaController {
     private CategoriaRepository repository;
 
     @GetMapping
-    public List<Categoria> findAll() {
-        return repository.findAll();
+    public List<CategoriaFullResponseDTO> findAll() {
+        List<Categoria> categorias = repository.findAll();
+
+        return categorias
+                .stream()
+                .map(Categoria::toCategoriaFullDto)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
