@@ -2,7 +2,9 @@ package br.grupointegrado.bootcamp.controller;
 
 import br.grupointegrado.bootcamp.dto.FilmeRequestDTO;
 import br.grupointegrado.bootcamp.dto.FilmeResponseDTO;
+import br.grupointegrado.bootcamp.model.Categoria;
 import br.grupointegrado.bootcamp.model.Filme;
+import br.grupointegrado.bootcamp.repository.CategoriaRepository;
 import br.grupointegrado.bootcamp.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ public class FilmeController {
 
     @Autowired
     private FilmeRepository repository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
     @GetMapping
     public List<FilmeResponseDTO> findAll() {
@@ -49,6 +54,22 @@ public class FilmeController {
                 .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
 
         filme.setNome(dto.nome());
+
+        return this.repository.save(filme);
+    }
+
+    @PutMapping("/{id}/categoria/{idCategoria}")
+    public Filme addCategoria(@PathVariable Integer id,
+                              @PathVariable Integer idCategoria,
+                              @RequestBody FilmeRequestDTO dto) {
+        Filme filme = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+
+        Categoria categoria = this.categoriaRepository.findById(idCategoria)
+                .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrado"));
+
+        filme.setNome(dto.nome());
+        filme.setCategoria(categoria);
 
         return this.repository.save(filme);
     }
