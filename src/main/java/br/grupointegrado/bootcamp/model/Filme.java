@@ -15,6 +15,10 @@ public class Filme {
     @Column
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    private Categoria categoria;
+
     public String getNome() {
         return nome;
     }
@@ -29,6 +33,14 @@ public class Filme {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
 
     @Override
