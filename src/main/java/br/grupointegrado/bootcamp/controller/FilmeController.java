@@ -1,12 +1,14 @@
 package br.grupointegrado.bootcamp.controller;
 
 import br.grupointegrado.bootcamp.dto.FilmeRequestDTO;
+import br.grupointegrado.bootcamp.dto.FilmeResponseDTO;
 import br.grupointegrado.bootcamp.model.Filme;
 import br.grupointegrado.bootcamp.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/filmes")
@@ -16,8 +18,10 @@ public class FilmeController {
     private FilmeRepository repository;
 
     @GetMapping
-    public List<Filme> findAll() {
-        return repository.findAll();
+    public List<FilmeResponseDTO> findAll() {
+        List<Filme> filmes = repository.findAll();
+
+        return filmes.stream().map(Filme::toFilmeResponseDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")

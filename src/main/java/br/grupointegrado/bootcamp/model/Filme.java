@@ -1,5 +1,7 @@
 package br.grupointegrado.bootcamp.model;
 
+import br.grupointegrado.bootcamp.dto.CategoriaResponseDTO;
+import br.grupointegrado.bootcamp.dto.FilmeResponseDTO;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -41,6 +43,16 @@ public class Filme {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public FilmeResponseDTO toFilmeResponseDTO() {
+        CategoriaResponseDTO categoriaDto;
+        if (this.categoria != null) {
+            categoriaDto =
+                    new CategoriaResponseDTO(this.categoria.getNome(), this.categoria.getFaixaEtaria());
+            return new FilmeResponseDTO(this.getNome(), categoriaDto);
+        }
+        return new FilmeResponseDTO(this.getNome(), null);
     }
 
     @Override
