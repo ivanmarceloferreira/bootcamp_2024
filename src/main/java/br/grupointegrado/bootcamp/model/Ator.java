@@ -1,6 +1,9 @@
 package br.grupointegrado.bootcamp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "ator")
@@ -15,6 +18,10 @@ public class Ator {
 
     @Column
     private String origem;
+
+    @ManyToMany(mappedBy = "atores")
+    @JsonIgnoreProperties("atores")
+    private List<Filme> filmes;
 
     public Integer getId() {
         return id;
@@ -38,5 +45,13 @@ public class Ator {
 
     public void setOrigem(String origem) {
         this.origem = origem;
+    }
+
+    public List<Filme> getFilmes() {
+        return filmes;
+    }
+
+    public void setFilmes(List<Filme> filmes) {
+        this.filmes = filmes;
     }
 }
