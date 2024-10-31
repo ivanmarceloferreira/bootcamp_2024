@@ -21,9 +21,7 @@ public class CategoriaController {
     public List<CategoriaFullResponseDTO> findAll() {
         List<Categoria> categorias = repository.findAll();
 
-        return categorias
-                .stream()
-                .map(Categoria::toCategoriaFullDto)
+        return categorias.stream().map(Categoria::toCategoriaFullDto)
                 .collect(Collectors.toList());
     }
 
