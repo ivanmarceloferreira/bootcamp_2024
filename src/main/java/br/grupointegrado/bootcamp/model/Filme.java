@@ -2,8 +2,10 @@ package br.grupointegrado.bootcamp.model;
 
 import br.grupointegrado.bootcamp.dto.CategoriaResponseDTO;
 import br.grupointegrado.bootcamp.dto.FilmeResponseDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,7 +21,16 @@ public class Filme {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id", referencedColumnName = "id")
+    @JsonIgnoreProperties("filmes")
     private Categoria categoria;
+
+    @ManyToMany
+    @JoinTable(
+            name = "filme_ator",
+            joinColumns = { @JoinColumn(name = "filme_id", referencedColumnName = "id")},
+            inverseJoinColumns = { @JoinColumn(name = "ator_id", referencedColumnName = "id") }
+    )
+    private List<Ator> atores;
 
     public String getNome() {
         return nome;
@@ -43,6 +54,14 @@ public class Filme {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Ator> getAtores() {
+        return atores;
+    }
+
+    public void setAtores(List<Ator> atores) {
+        this.atores = atores;
     }
 
     public FilmeResponseDTO toFilmeResponseDTO() {
