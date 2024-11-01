@@ -30,6 +30,7 @@ public class Filme {
             joinColumns = { @JoinColumn(name = "filme_id", referencedColumnName = "id")},
             inverseJoinColumns = { @JoinColumn(name = "ator_id", referencedColumnName = "id") }
     )
+    @JsonIgnoreProperties("filmes")
     private List<Ator> atores;
 
     public String getNome() {
