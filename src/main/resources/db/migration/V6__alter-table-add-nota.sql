@@ -1,0 +1,1 @@
+alter table filmes add nota decimal(10,2);

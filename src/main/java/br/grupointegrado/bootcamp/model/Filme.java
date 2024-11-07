@@ -5,6 +5,7 @@ import br.grupointegrado.bootcamp.dto.FilmeResponseDTO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +33,12 @@ public class Filme {
     )
     @JsonIgnoreProperties("filmes")
     private List<Ator> atores;
+
+    @Column
+    private BigDecimal nota;
+
+    @Column
+    private String resumo;
 
     public String getNome() {
         return nome;
@@ -63,6 +70,22 @@ public class Filme {
 
     public void setAtores(List<Ator> atores) {
         this.atores = atores;
+    }
+
+    public BigDecimal getNota() {
+        return nota;
+    }
+
+    public void setNota(BigDecimal nota) {
+        this.nota = nota;
+    }
+
+    public String getResumo() {
+        return resumo;
+    }
+
+    public void setResumo(String resumo) {
+        this.resumo = resumo;
     }
 
     public FilmeResponseDTO toFilmeResponseDTO() {

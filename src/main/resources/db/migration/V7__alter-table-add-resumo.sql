@@ -1,0 +1,1 @@
+alter table filmes add resumo varchar(4000);

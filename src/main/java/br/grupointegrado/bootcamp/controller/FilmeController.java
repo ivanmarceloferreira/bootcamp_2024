@@ -11,6 +11,7 @@ import br.grupointegrado.bootcamp.repository.FilmeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class FilmeController {
                               @PathVariable Integer idCategoria,
                               @RequestBody FilmeRequestDTO dto) {
         Filme filme = this.repository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
 
         Categoria categoria = this.categoriaRepository.findById(idCategoria)
                 .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrado"));
@@ -99,6 +100,33 @@ public class FilmeController {
         this.repository.save(filme);
 
         return filme;
+    }
+
+    @PostMapping("/{id}/nota")
+    public Filme addNota(@PathVariable Integer id, @RequestBody BigDecimal nota) {
+        Filme filme = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+
+        if (nota.compareTo(BigDecimal.ZERO) <= 0) {
+            nota = BigDecimal.ZERO;
+        }
+        if (nota.compareTo(BigDecimal.valueOf(10)) > 0) {
+            nota = BigDecimal.valueOf(10);
+        }
+        filme.setNota(nota);
+
+        return this.repository.save(filme);
+    }
+
+    @PostMapping("/{id}/resumo")
+    public Filme addNota(@PathVariable Integer id,
+                         @RequestBody String resumo) {
+        Filme filme = this.repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Filme não encontrado"));
+
+        filme.setResumo(resumo);
+
+        return this.repository.save(filme);
     }
 
 }
